@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>love | Home</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text x=%2250%%22 y=%2255%%22 font-size=%2260%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22>❤️</text></svg>">
+</head>
+<body>
+    <canvas id="bgCanvas"></canvas>
+
+    <audio id="siteMusic" loop><source src="music/music_screen.mp3" type="audio/mpeg"></audio>
+    <audio id="favMusic"><source src="music/music_love.mp3.mp4" type="audio/mpeg"></audio>
+
+    <section class="hero-section">
+        <h1 class="jana-title">RETAG</h1>
+        
+        <div class="special-msg-container">
+            <span class="msg-label">رسالة مخصصة لأجلك</span>
+            <div class="msg-box">
+                <p class="msg-text">
+                    أنتِ الاستثناء في كل شيء، وهذا العالم الصغير لا يليق إلا بكِ.
+                    كل تفصيلة هنا صُنعت بحب، لتبقى ذكرى أبدية لنا.
+                </p>
+            </div>
+        </div>
+        
+        <span class="video-label">مصمم خصيصاً لكي</span>
+        <video controls autoplay muted loop>
+            <source src="video/love.mp4" type="video/mp4">
+        </video>
+    </section>
+
+    <section class="memories-section">
+        <h2 style="text-align: center; color: var(--primary); margin-bottom: 30px; font-family: 'Amiri', serif; font-size: 2rem;">أجمل الذكريات</h2>
+        
+        <div class="slider-container">
+            <button class="nav-btn next-btn" onclick="moveSlide(-1)">&#10094;</button>
+            <button class="nav-btn prev-btn" onclick="moveSlide(1)">&#10095;</button>
+
+            <div class="slider-track" id="sliderTrack">
+                <div class="memory-card shine-effect" onclick="openMemory('img/love1.jpg', 'دمتِ لي شيئاً جميلاً لا ينتهي')"><img src="img/love1.jpg"></div>
+                <div class="memory-card shine-effect" onclick="openMemory('img/love2.jpg', 'في عينيكِ.. وجدتُ وطني وملاذي')"><img src="img/love2.jpg"></div>
+                <div class="memory-card shine-effect" onclick="openMemory('img/love3.jpg', 'ضحكتكِ هي النور لأيامي المظلمة')"><img src="img/love3.jpg"></div>
+                <div class="memory-card shine-effect" onclick="openMemory('img/love4.jpg', 'صدفة عثرت عليها فكانت أجمل أقداري')"><img src="img/love4.jpg"></div>
+                <div class="memory-card shine-effect" onclick="openMemory('img/love5.jpg', 'كل تفصيلة فيكِ.. هي حياة أخرى')"><img src="img/love5.jpg"></div>
+                <div class="memory-card shine-effect" onclick="openMemory('img/love6.jpg', 'عيناكِ.. هي لغتي المفضلة')"><img src="img/love6.jpg"></div>
+                <div class="memory-card shine-effect" onclick="openMemory('img/love7.jpg', 'لكِ في قلبي مدينة، سكانها أنتِ فقط')"><img src="img/love7.jpg"></div>
+                <div class="memory-card shine-effect" onclick="openMemory('img/love8.jpg', 'أحبكِ بقلبٍ لا يرى سواكِ')"><img src="img/love8.jpg"></div>
+                <div class="memory-card shine-effect" onclick="openMemory('img/love9.jpg', 'أنتِ الجزء الحلو في كل أيامي')"><img src="img/love9.jpg"></div>
+                <div class="memory-card shine-effect" onclick="openMemory('img/love10.jpg', 'وردة نبتت في بستان عمري')"><img src="img/love10.jpg"></div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 style="text-align: center; color: var(--primary); font-family: 'Amiri', serif; margin-bottom: 20px;">تفاصيلكِ المفضلة</h2>
+        <div class="fav-grid">
+            <div class="fav-box shine-effect">
+                <img src="img/pitzza.jpg" alt="Food">
+                <div class="fav-label">أكلتك المفضلة</div>
+            </div>
+            <div class="fav-box shine-effect">
+                <img src="img/drink.jpg" alt="Drink">
+                <div class="fav-label">مشروبك المفضل</div>
+            </div>
+            <div class="fav-box shine-effect">
+                <img src="img/photo.jpg" alt="Place">
+                <div class="fav-label">مكانك المفضل</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="music-player">
+        <button class="play-fav-btn" onclick="playFavorite()">🎵 تشغيل أغنيتكِ المفضلة</button>
+    </section>
+
+    <section class="poem-section">
+        <p class="poem-text">
+            وَمَا كُنتُ مِمَّن يَدخُلُ العِشقُ قَلبَهُ <br>
+            وَلَكِنَّ مَن يُبصِر جُفونَكِ يَعشَقِ
+        </p>
+    </section>
+
+    <div id="toast" class="toast-msg">
+        <p class="toast-text">
+            أوقفت كل شيء لكي تسمعي ما تحبي...
+        </p>
+    </div>
+
+    <div id="imgModal" class="modal">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <img id="modalImg" src="">
+        <p id="modalText"></p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

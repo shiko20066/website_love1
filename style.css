@@ -1,0 +1,368 @@
+/* style.css */
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cairo:wght@400;700&family=Pinyon+Script&display=swap');
+
+:root {
+    --primary: #ff0a54;       
+    --accent: #ffccd5;        
+    --gold: #ffd700;          
+    --dark-bg: #050203;       
+    --glass: rgba(20, 20, 20, 0.8);
+    --glow: rgba(255, 10, 84, 0.6);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: radial-gradient(circle at center, #2e1020 0%, #000000 100%);
+    color: white;
+    font-family: 'Cairo', sans-serif;
+    overflow-x: hidden;
+    scrollbar-width: none; 
+}
+body::-webkit-scrollbar { display: none; }
+
+#bgCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+
+/* --- 1. واجهة الدخول --- */
+.login-wrapper { height: 100vh; display: flex; align-items: center; justify-content: center; }
+
+.login-card {
+    background: #000000;
+    border: 1px solid var(--primary);
+    border-radius: 30px;
+    padding: 50px 30px;
+    width: 90%; max-width: 380px;
+    text-align: center;
+    position: relative;
+    filter: drop-shadow(0 0 20px #7f1435);
+}
+
+.crown-anim {
+    font-size: 5rem; display: block; margin-bottom: 20px;
+    animation: crownFloat 2.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 15px var(--gold));
+}
+@keyframes crownFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+input {
+    width: 100%; padding: 15px; background: #1a1a1a; border: 1px solid #333;
+    border-radius: 15px; color: white; text-align: center; font-size: 1.2rem;
+    margin-bottom: 20px; outline: none; transition: 0.3s;
+}
+input:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(255, 10, 84, 0.3); }
+
+.enter-btn {
+    background: var(--primary); color: white; border: none; padding: 12px 40px;
+    border-radius: 20px; font-weight: bold; font-size: 1rem; cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255, 10, 84, 0.3); transition: 0.3s;
+}
+.enter-btn:hover { transform: scale(1.05); background: #ff477e; }
+
+#errorMsg { min-height: 25px; margin-bottom: 15px; font-size: 0.9rem; color: #ff4d4d; font-weight: bold; }
+.shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+@keyframes shake { 10%, 90% { transform: translate3d(-2px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } }
+
+/* --- 2. الصفحة الرئيسية --- */
+.hero-section { text-align: center; padding: 80px 20px 40px; }
+
+.jana-title {
+    font-family: 'Pinyon Script', cursive; font-size: 6.5rem; color: #fff;
+    text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
+    margin-bottom: 40px; letter-spacing: 2px;
+}
+
+
+.special-msg-container { max-width: 700px; margin: 0 auto 50px; text-align: center; position: relative; }
+.msg-label {
+    background: var(--primary); color: white; padding: 5px 20px; border-radius: 20px;
+    font-family: 'Amiri', serif; font-size: 1rem; position: absolute;
+    top: -15px; left: 50%; transform: translateX(-50%); z-index: 2;
+    box-shadow: 0 0 10px var(--primary);
+}
+.msg-box {
+    background: rgba(20, 20, 20, 0.6); backdrop-filter: blur(10px);
+    padding: 35px 25px 25px; border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1); border-bottom: 3px solid var(--primary);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.msg-text { line-height: 1.8; font-size: 1.1rem; color: #eee; }
+
+.video-label {
+    display: block; font-family: 'Amiri', serif; font-size: 1.4rem; color: var(--accent);
+    margin-bottom: 15px; font-weight: bold; margin-top: 40px;
+}
+video { width: 100%; max-width: 600px; border-radius: 20px; border: 1px solid var(--primary); box-shadow: 0 0 20px rgba(255,10,84,0.2); }
+
+/* --- 3. السلايدر اليدوي (التعديل الجديد) --- */
+.memories-section { padding: 40px 0; width: 100%; position: relative; }
+
+.slider-container {
+    position: relative;
+    width: 100%;
+    max-width: 1000px; /* عرض مناسب للكمبيوتر */
+    margin: 0 auto;
+    overflow: hidden; /* لإخفاء الصور الجانبية */
+    padding: 20px 0;
+}
+
+.slider-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out; /* حركة ناعمة عند الضغط */
+    width: 100%;
+}
+
+.memory-card {
+    /* كل صورة تأخذ مساحة معينة حسب الشاشة */
+    min-width: 100%; /* للموبايل: صورة واحدة كاملة */
+    height: 400px;
+    flex-shrink: 0;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid #333;
+    position: relative;
+    cursor: pointer;
+    /* مسافة بسيطة حول الصورة */
+    transform: scale(0.95); 
+    transition: 0.3s;
+}
+.memory-card img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9); }
+.memory-card:hover img { filter: brightness(1.1); transform: scale(1.05); }
+
+/* أزرار التحكم (الأسهم) */
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: 0.3s;
+    display: flex; align-items: center; justify-content: center;
+}
+.nav-btn:hover { background: var(--primary); color: white; }
+.prev-btn { left: 10px; }
+.next-btn { right: 10px; }
+
+/* للموبايل: الصورة تأخذ العرض كامل، للكمبيوتر: 3 صور */
+@media (min-width: 768px) {
+    .memory-card { min-width: 33.333%; height: 450px; }
+}
+
+/* اللمعة */
+.shine-effect::after {
+    content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+    transform: skewX(-25deg); animation: shine 5s infinite;
+}
+@keyframes shine { 0%, 50% { left: -100%; } 100% { left: 200%; } }
+
+/* --- 4. التفضيلات --- */
+.fav-grid {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;
+    padding: 20px; max-width: 900px; margin: 0 auto;
+}
+.fav-box {
+    background: #000; border-radius: 20px; overflow: hidden; position: relative;
+    width: 250px; height: 320px; border: 1px solid rgba(255,255,255,0.2);
+}
+.fav-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.5s; }
+.fav-box:hover img { transform: scale(1.1); opacity: 1; }
+.fav-label {
+    position: absolute; bottom: 0; width: 100%; background: linear-gradient(transparent, black);
+    padding: 20px; text-align: center; color: var(--primary); font-weight: bold; font-size: 1.3rem; font-family: 'Amiri', serif;
+}
+.fav-box::after {
+    content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+    transform: skewX(-25deg); animation: shine 6s infinite;
+}
+
+/* --- 5. المشغل الصوتي --- */
+.music-player { text-align: center; padding: 40px 20px; margin-bottom: 50px; }
+.play-fav-btn {
+    background: var(--primary); color: white; border: none; padding: 15px 40px;
+    border-radius: 50px; font-size: 1.2rem; cursor: pointer;
+    box-shadow: 0 0 20px var(--glow); transition: 0.3s; font-family: 'Amiri', serif;
+}
+.play-fav-btn:hover { transform: scale(1.1); background: #ff477e; }
+
+/* --- 6. بيت الشعر --- */
+.poem-section {
+    min-height: 40vh; display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 20px 0; margin-bottom: 40px;
+}
+.poem-text {
+    font-family: 'Amiri', serif; font-size: 2.8rem; color: white;
+    opacity: 0; filter: blur(10px); transition: opacity 2.5s ease, filter 2.5s ease;
+    text-shadow: 0 0 10px rgba(255,255,255,0.2); line-height: 1.6;
+}
+.poem-text.visible { opacity: 1; filter: blur(0); text-shadow: 0 0 25px var(--primary); }
+
+/* --- 7. التوست والمودال --- */
+.toast-msg {
+    position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.95); border: 1px solid var(--primary);
+    padding: 20px; border-radius: 20px; text-align: center; width: 90%; max-width: 500px;
+    z-index: 1000; opacity: 0; pointer-events: none; transition: 0.5s;
+    box-shadow: 0 0 40px rgba(0,0,0,0.8);
+}
+.toast-msg.show { opacity: 1; bottom: 60px; pointer-events: auto; }
+.toast-text { color: white; font-family: 'Amiri', serif; font-size: 1.3rem; line-height: 1.6; }
+
+.modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95); z-index: 2000; display: none;
+    align-items: center; justify-content: center; flex-direction: column;
+}
+.modal.active { display: flex; animation: fadeIn 0.3s; }
+.modal img { max-width: 90%; max-height: 60vh; border-radius: 15px; border: 2px solid var(--primary); }
+.modal p { color: white; font-size: 1.6rem; margin-top: 20px; font-family: 'Amiri', serif; text-align: center; padding: 0 20px; text-shadow: 0 0 10px var(--primary); }
+.close-modal { position: absolute; top: 30px; right: 30px; font-size: 3rem; color: white; cursor: pointer; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+/* --- تعديلات الموبايل النهائية (صورة واحدة كاملة + حركة ناعمة) --- */
+@media (max-width: 767px) {
+    /* الحاوية: إلغاء المسافات الجانبية */
+    .slider-container {
+        padding: 0 !important;
+        width: 100% !important;
+    }
+
+    /* التراك: تنظيم العرض والمرونة */
+    .slider-track {
+        gap: 0 !important; /* إلغاء الفراغ بين الصور */
+    }
+
+    /* الكارت: يأخذ الشاشة بالكامل */
+    .memory-card {
+        min-width: 100% !important; /* عرض كامل */
+        height: 400px !important;   /* ارتفاع ثابت ومناسب */
+        margin: 0 !important;       /* إلغاء الهوامش */
+        transform: scale(1) !important; /* إلغاء التصغير */
+        border-radius: 0 !important; /* (اختياري) حواف حادة لتملأ الشاشة */
+        border-left: none !important;
+        border-right: none !important;
+    }
+}
+    /* 3. ضبط شبكة التفضيلات: صورتين بجانب بعضهما بدلاً من صورة واحدة كبيرة */
+    .fav-grid {
+        gap: 12px !important;
+        padding: 10px !important;
+    }
+
+    .fav-box {
+        width: calc(50% - 10px) !important; /* عرض مرن لبوكسين */
+        height: 200px !important;
+    }
+
+    .fav-label {
+        font-size: 1rem !important;
+        padding: 10px 5px !important;
+    }
+
+    /* 4. ضبط بيت الشعر ليناسب شاشة الجوال */
+    .poem-text {
+        font-size: 1.8rem !important;
+        padding: 0 15px;
+    }
+
+    /* --- تحسين شكل التفضيلات على الكمبيوتر (تصميم احترافي) --- */
+@media (min-width: 768px) {
+    .fav-grid {
+        display: flex !important;
+        justify-content: center !important; /* توسيط العناصر */
+        align-items: center !important;
+        gap: 40px !important; /* مسافة كبيرة بين الكروت */
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+        padding: 50px 0 !important;
+    }
+
+    .fav-box {
+        width: 300px !important;  /* عرض ثابت مناسب */
+        height: 450px !important; /* ارتفاع طولي (شكل البوستر) */
+        flex: none !important;    /* منع التمدد العشوائي */
+        border-radius: 20px !important; /* حواف أكثر نعومة */
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important; /* ظل قوي للعمق */
+        transition: transform 0.4s ease, box-shadow 0.4s ease !important;
+    }
+
+    /* تأثير هوفر للكمبيوتر فقط */
+    .fav-box:hover {
+        transform: translateY(-15px) scale(1.02) !important; /* يرتفع للأعلى قليلاً */
+        box-shadow: 0 20px 40px rgba(255, 10, 84, 0.4) !important; /* توهج بلون الثيم */
+        z-index: 10 !important;
+    }
+
+    /* تحسين الصور داخل البوكس */
+    .fav-box img {
+        height: 100% !important; /* ملء الطول */
+        width: 100% !important;
+        object-fit: cover !important; /* قص الصورة باحترافية */
+    }
+
+    /* تحسين النص */
+    .fav-label {
+        font-size: 1.4rem !important;
+        padding: 15px !important;
+        background: linear-gradient(transparent, #000 90%) !important; /* تدرج لوني للنص */
+    }
+}
+
+/* --- تعديل الموبايل النهائي (إلغاء الصندوق الأسود والقطع) --- */
+@media (max-width: 767px) {
+    
+    /* 1. الحاوية: مساحة جانبية (padding) عشان الصورة متلزقش في الشاشة */
+    .slider-container {
+        padding: 0 15px !important; 
+        width: 100% !important;
+        overflow: hidden; /* عشان يخفي أي حاجة زيادة */
+    }
+
+    .slider-track {
+        display: flex;
+        width: 100%;
+        gap: 0 !important;
+    }
+
+    /* 2. الكارت: (التغيير هنا) نخليه شفاف تماماً ونلغي أي لون أو حدود */
+    .memory-card {
+        min-width: 100% !important;
+        height: 600px !important;   
+        margin: 0 !important;
+        
+        background: transparent !important; /* ده اللي كان بيعمل اللون الأسود في الجنب - لغيناه */
+        border: none !important;            /* إلغاء البرواز */
+        box-shadow: none !important;        /* إلغاء ظل الصندوق المربع */
+        
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* 3. الصورة: هي اللي تاخد الظل والدوران */
+    .memory-card img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important; /* الصورة كاملة */
+        
+        border-radius: 20px !important; 
+        /* الفلتر ده بيحط ظل على "جسم" الصورة بس مهما كانت أبعادها، مش على الصندوق */
+        filter: drop-shadow(0 10px 20px rgba(0,0,0,0.6)) !important; 
+    }
+
+    /* 4. الأزرار */
+    .nav-btn {
+        width: 50px !important;
+        height: 50px !important;
+        background: rgba(0, 0, 0, 0.5) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        color: white !important;
+    }
+    .prev-btn { left: 5px !important; }
+    .next-btn { right: 5px !important; }
+}
