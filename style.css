@@ -313,56 +313,64 @@ video { width: 100%; max-width: 600px; border-radius: 20px; border: 1px solid va
     }
 }
 
-/* --- تعديل الموبايل النهائي (إلغاء الصندوق الأسود والقطع) --- */
+/* --- إصلاح السلايدر للموبايل (صورة واحدة كاملة عند كل توقف) --- */
 @media (max-width: 767px) {
-    
-    /* 1. الحاوية: مساحة جانبية (padding) عشان الصورة متلزقش في الشاشة */
+
+    /* 1. حاوية السلايدر: تفعيل خاصية Scroll Snap */
     .slider-container {
-        padding: 0 15px !important; 
+        display: flex;
+        overflow-x: auto;          /* تفعيل التمرير الأفقي */
+        
+        /* النقطة الحاسمة 1: فرض التوقف عند نقاط محددة */
+        scroll-snap-type: x mandatory; 
+        
+        scroll-behavior: smooth;   /* حركة تمرير ناعمة */
+        scrollbar-width: none;     /* إخفاء شريط التمرير لفايرفوكس */
         width: 100% !important;
-        overflow: hidden; /* عشان يخفي أي حاجة زيادة */
+        padding: 0 !important;     /* إزالة الحشوة لضمان العرض الكامل */
+        gap: 0 !important;         /* إزالة المسافة بين الصور تماماً */
+        height: auto;
+        /* لضمان أن الحاوية هي المرجع للـ snap */
+        position: relative;
     }
 
+    /* إخفاء شريط التمرير لمتصفحات Webkit (Chrome, Safari) */
+    .slider-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* مسار السلايدر: لضمان عدم وجود أي خصائص تعيق السلوك */
     .slider-track {
-        display: flex;
-        width: 100%;
-        gap: 0 !important;
+        display: contents; /* يجعل العناصر الأبناء تتبع الحاوية مباشرة */
     }
 
-    /* 2. الكارت: (التغيير هنا) نخليه شفاف تماماً ونلغي أي لون أو حدود */
+    /* 2. بطاقة الصورة: تحديد نقطة التوقف وعرض 100% */
     .memory-card {
-        min-width: 100% !important;
-        height: 600px !important;   
-        margin: 0 !important;
+        /* النقطة الحاسمة 2: العرض 100% من الحاوية لضمان ظهور صورة واحدة فقط */
+        min-width: 100% !important; 
+        height: 550px !important;   /* ارتفاع ثابت وكبير ليملأ الشاشة طولياً */
         
-        background: transparent !important; /* ده اللي كان بيعمل اللون الأسود في الجنب - لغيناه */
-        border: none !important;            /* إلغاء البرواز */
-        box-shadow: none !important;        /* إلغاء ظل الصندوق المربع */
+        /* النقطة الحاسمة 3: التوقف عند بداية العنصر تمامًا */
+        scroll-snap-align: start;   
+        scroll-snap-stop: always;   /* يمنع تخطي الصور بسرعة */
         
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        margin: 0 !important;       /* إزالة أي هوامش */
+        border-radius: 0 !important; /* (اختياري) إزالة الحواف الدائرية لتبدو كخلفية */
+        border: none !important;
+        transform: none !important; /* إزالة أي تأثيرات تحجيم */
+        position: relative;
     }
 
-    /* 3. الصورة: هي اللي تاخد الظل والدوران */
+    /* الصورة داخل البطاقة */
     .memory-card img {
         width: 100% !important;
         height: 100% !important;
-        object-fit: contain !important; /* الصورة كاملة */
-        
-        border-radius: 20px !important; 
-        /* الفلتر ده بيحط ظل على "جسم" الصورة بس مهما كانت أبعادها، مش على الصندوق */
-        filter: drop-shadow(0 10px 20px rgba(0,0,0,0.6)) !important; 
+        object-fit: cover !important; /* ملء الإطار مع الحفاظ على النسبة */
+        border-radius: 0 !important;  /* (اختياري) */
     }
-
-    /* 4. الأزرار */
+    
+    /* (اختياري) إخفاء أزرار التنقل لأن التمرير باللمس أصبح الأساس والأفضل */
     .nav-btn {
-        width: 50px !important;
-        height: 50px !important;
-        background: rgba(0, 0, 0, 0.5) !important;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-        color: white !important;
+        display: none !important; 
     }
-    .prev-btn { left: 5px !important; }
-    .next-btn { right: 5px !important; }
 }
