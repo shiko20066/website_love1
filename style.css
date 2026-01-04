@@ -313,64 +313,68 @@ video { width: 100%; max-width: 600px; border-radius: 20px; border: 1px solid va
     }
 }
 
-/* --- إصلاح السلايدر للموبايل (صورة واحدة كاملة عند كل توقف) --- */
+/* --- إصلاح السلايدر للموبايل (تشغيل التقليب التلقائي + إظهار الأسهم) --- */
 @media (max-width: 767px) {
 
-    /* 1. حاوية السلايدر: تفعيل خاصية Scroll Snap */
+    /* 1. الحاوية */
     .slider-container {
         display: flex;
-        overflow-x: auto;          /* تفعيل التمرير الأفقي */
-        
-        /* النقطة الحاسمة 1: فرض التوقف عند نقاط محددة */
-        scroll-snap-type: x mandatory; 
-        
-        scroll-behavior: smooth;   /* حركة تمرير ناعمة */
-        scrollbar-width: none;     /* إخفاء شريط التمرير لفايرفوكس */
+        overflow-x: auto;
+        scroll-snap-type: x mandatory; /* الـ Snap شغال */
+        scroll-behavior: smooth;
         width: 100% !important;
-        padding: 0 !important;     /* إزالة الحشوة لضمان العرض الكامل */
-        gap: 0 !important;         /* إزالة المسافة بين الصور تماماً */
+        padding: 0 !important;
         height: auto;
-        /* لضمان أن الحاوية هي المرجع للـ snap */
-        position: relative;
+        position: relative; /* ضروري عشان الأسهم تثبت بالنسبة ليه */
     }
 
-    /* إخفاء شريط التمرير لمتصفحات Webkit (Chrome, Safari) */
-    .slider-container::-webkit-scrollbar {
-        display: none;
-    }
+    /* إخفاء السكرول بار */
+    .slider-container::-webkit-scrollbar { display: none; }
 
-    /* مسار السلايدر: لضمان عدم وجود أي خصائص تعيق السلوك */
+    /* 2. التراك (تصحيح الخطأ هنا) */
     .slider-track {
-        display: contents; /* يجعل العناصر الأبناء تتبع الحاوية مباشرة */
+        display: flex; /* لازم فليكس عشان الجافاسكريبت يحسب العرض صح ويقلب */
+        width: 100%;
+        gap: 0 !important;
     }
 
-    /* 2. بطاقة الصورة: تحديد نقطة التوقف وعرض 100% */
+    /* 3. الكارت (صورة واحدة كاملة) */
     .memory-card {
-        /* النقطة الحاسمة 2: العرض 100% من الحاوية لضمان ظهور صورة واحدة فقط */
-        min-width: 100% !important; 
-        height: 550px !important;   /* ارتفاع ثابت وكبير ليملأ الشاشة طولياً */
-        
-        /* النقطة الحاسمة 3: التوقف عند بداية العنصر تمامًا */
-        scroll-snap-align: start;   
-        scroll-snap-stop: always;   /* يمنع تخطي الصور بسرعة */
-        
-        margin: 0 !important;       /* إزالة أي هوامش */
-        border-radius: 0 !important; /* (اختياري) إزالة الحواف الدائرية لتبدو كخلفية */
-        border: none !important;
-        transform: none !important; /* إزالة أي تأثيرات تحجيم */
+        min-width: 100% !important; /* عرض 100% يعني صورة واحدة بس */
+        height: 550px !important;
+        scroll-snap-align: center;  /* يقف في النص بالظبط */
+        scroll-snap-stop: always;
         position: relative;
+        margin: 0 !important;
+        border: none !important;
+        background: transparent !important;
     }
 
-    /* الصورة داخل البطاقة */
     .memory-card img {
         width: 100% !important;
         height: 100% !important;
-        object-fit: cover !important; /* ملء الإطار مع الحفاظ على النسبة */
-        border-radius: 0 !important;  /* (اختياري) */
+        object-fit: cover !important;
+        border-radius: 0 !important;
     }
-    
-    /* (اختياري) إخفاء أزرار التنقل لأن التمرير باللمس أصبح الأساس والأفضل */
+
+    /* 4. إرجاع الأسهم في الجنب (التعديل المطلوب) */
     .nav-btn {
-        display: none !important; 
+        display: flex !important; /* إظهار الزر */
+        position: absolute !important; /* تثبيت فوق الصورة */
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        z-index: 100 !important; /* يظهر فوق الصورة */
+        
+        /* تنسيق شكل الزر */
+        width: 45px !important;
+        height: 45px !important;
+        background: rgba(0, 0, 0, 0.5) !important; /* خلفية شفافة */
+        border: 1px solid rgba(255, 255, 255, 0.4) !important;
+        color: white !important;
+        font-size: 1.2rem !important;
     }
+
+    /* أماكن الأسهم */
+    .prev-btn { left: 10px !important; }
+    .next-btn { right: 10px !important; }
 }
